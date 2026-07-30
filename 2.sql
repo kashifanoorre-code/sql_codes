@@ -1,0 +1,17 @@
+CREATE TABLE Stocks1(
+  pid int primary key,
+  item varchar(20),
+  rate Int,
+  stock Int
+);
+
+INSERT INTO Stocks1 VALUES (201, 'DESKSTOP i7', 55000, 523);
+INSERT INTO Stocks1 VALUES (202, 'DESKSTOP i5', 45000, 544);
+INSERT INTO Stocks1 VALUES (203, 'DESKSTOP i6', 65000, 528);
+INSERT INTO Stocks1 VALUES (204, 'DESKSTOP i2', 75000, 546);
+INSERT INTO Stocks1 VALUES (205, 'DESKSTOP i9', 85000, 524);
+INSERT INTO Stocks1 VALUES (206, 'DESKSTOP i4', 95000, 568);
+
+commit;
+
+SELECT * from Stocks1
