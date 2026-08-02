@@ -7,12 +7,58 @@ CREATE TABLE transaction1(
 );
 
 INSERT INTO transaction1 VALUES (23001, '2026-7-03', 112, 201, 50);
-INSERT INTO transaction1 VALUES (23002, '2026-7-05', 113, 202, 50);
-INSERT INTO transaction1 VALUES (23003, '2026-7-06', 114, 203, 50);
-INSERT INTO transaction1 VALUES (23004, '2026-7-07', 115, 204, 50);
-INSERT INTO transaction1 VALUES (23005, '2026-7-08', 116, 205, 50);
-INSERT INTO transaction1 VALUES (23006, '2026-7-09', 117, 206, 50);
+INSERT INTO transaction1 VALUES (23002, '2026-7-05', 113, 202, 40);
+INSERT INTO transaction1 VALUES (23003, '2026-7-06', 114, 203, 10);
+INSERT INTO transaction1 VALUES (23004, '2026-7-07', 115, 204, 30);
+INSERT INTO transaction1 VALUES (23005, '2026-7-08', 116, 205, 60);
+INSERT INTO transaction1 VALUES (23006, '2026-7-09', 117, 206, 90);
 
 SELECT * from transaction1;
 SELECT invoiceno, dt, qty from transaction1;
 SELECT invoiceno AS 'INVOICE NUMBER', cid AS 'CUSTOMER ID', pid AS 'PRODUCT ID', qty AS 'QUANTITY' from transaction1;
+
+--SORTING
+SELECT cid, qty FROM Transaction1 ORDER BY qty;
+SELECT cid, qty FROM Transaction1 ORDER BY qty DESC;
+SELECT cid, qty FROM Transaction1 ORDER BY qty ASC;
+
+--IN CLAUSE
+SELECT invoiceno, cid, pid, dt, qty FROM Transaction1 WHERE cid in (111,113,114);
+
+--BETWEEN CLAUSE
+SELECT invoiceno, cid, pid, dt, qty FROM Transaction1 WHERE pid in (201, 202, 204, 205);
+SELECT invoiceno, cid, pid, dt, qty FROM Transaction1 WHERE qty BETWEEN 20 AND 30; 
+
+--AVERAGE
+SELECT AVG(qty) FROM Transaction1;
+SELECT AVG(qty) FROM Transaction1 WHERE cid=112;
+SELECT AVG(qty) FROM Transaction1 WHERE pid=204;
+
+--COUNT 
+SELECT COUNT(*) FROM Transaction1;
+SELECT COUNT(*) FROM Transaction1 WHERE cid=112;
+SELECT COUNT(*) FROM Transaction1 WHERE pid=204;
+
+--MAXIMUM
+SELECT MAX(qty) FROM Transaction1;
+SELECT MAX(qty) FROM Transaction1 WHERE cid=114;
+SELECT MAX(qty) FROM Transaction1 WHERE pid=204;
+
+--MINIMUM
+SELECT MIN(qty) FROM Transaction1;
+SELECT MIN(qty) FROM Transaction1 WHERE cid=112; 
+SELECT MIN(qty) FROM Transaction1 WHERE pid=204; 
+
+--SUM
+SELECT SUM(qty) FROM Transaction1;
+SELECT SUM(qty) FROM Transaction1 WHERE cid=112;
+SELECT SUM(qty) FROM Transaction1 WHERE pid=204; 
+
+--GROUP BY CLAUSE
+SELECT cid, AVG(qty) FROM Transaction1 GROUP BY cid;
+SELECT pid, SUM(qty) FROM Transaction1 GROUP BY pid;
+SELECT pid, cid, MAX(qty) FROM Transaction1 GROUP BY pid, cid;
+
+--GROUP BY HAVING CLAUSE
+SELECT cid, AVG(qty) FROM Transaction1 WHERE qty>30 GROUP BY cid;
+SELECT pid, SUM(qty) FROM Transaction1 GROUP BY pid HAVING pid IN(202,204,205);
