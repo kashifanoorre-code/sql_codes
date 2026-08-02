@@ -1,0 +1,29 @@
+CREATE TABLE Client1(
+    cid int primary key,
+    name varchar(20) not null,
+    address varchar(20),
+    city char(20),
+    mobile varchar(15),
+    limit Int
+);
+
+INSERT INTO Client1 VALUES(100, 'kashifa', 'bowbazar road', 'kolkata', '9831556411', '10000');
+INSERT INTO Client1 VALUES(101, 'lemon', 'tank road', 'mumbai', '9831556351', '20000');
+INSERT INTO Client1 VALUES(102, 'monu', 'elliot road', 'chennai', '9831564411', '14000');
+INSERT INTO Client1 VALUES(103, 'zayden', 'pink road', 'kolkata', '9831873411', '14000');
+INSERT INTO Client1 VALUES(104, 'oreo', 'dalhousie road', 'pune', '9837364411', '17000');
+INSERT INTO Client1 VALUES(105, 'reo', 'equinox road', 'kolkata', '98987156411', '20000');
+
+SELECT * FROM Client1;
+SELECT cid, name FROM Client1;
+SELECT cid, city FROM Client1;
+SELECT name, limit FROM Client1;
+SELECT name AS "Company Name", mobile AS "PHONE NO", limit AS "Credit Limit" FROM Client1;
+SELECT cid, city, name FROM Client1 WHERE city='kolkata';
+SELECT name, city from Client1 WHERE NAME LIKE 'r%'; --finds values that start with r 
+SELECT name, city from Client1 WHERE NAME LIKE '%s'; -- find values that end with s 
+SELECT name, city from Client1 WHERE NAME LIKE '%ro%';--finds any values that have ro in any position
+SELECT name, city from Client1 WHERE NAME LIKE '_p%';--finds values that have p in the second position
+SELECT name, city from Client1 WHERE NAME LIKE 'm_%';--finds values that start with m and have atleast 2 more characters
+SELECT name, city from Client1 WHERE NAME LIKE 'd__%';--finds value that start with d and have atleast 3 more characters
+SELECT name, city from Client1 WHERE NAME LIKE 'r%u';--finds any values that start with r and ends with u
