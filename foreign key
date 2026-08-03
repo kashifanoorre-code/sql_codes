@@ -1,0 +1,46 @@
+CREATE TABLE Client1(
+    cid int primary key,
+    name varchar(20) not null,
+    address varchar(20),
+    city char(20),
+    mobile varchar(15),
+    limit Int
+);
+
+INSERT INTO Client1 VALUES(100, 'kashifa', 'bowbazar road', 'kolkata', '9831556411', '10000');
+INSERT INTO Client1 VALUES(101, 'lemon', 'tank road', 'mumbai', '9831556351', '20000');
+INSERT INTO Client1 VALUES(102, 'monu', 'elliot road', 'chennai', '9831564411', '14000');
+INSERT INTO Client1 VALUES(103, 'zayden', 'pink road', 'kolkata', '9831873411', '14000');
+INSERT INTO Client1 VALUES(104, 'oreo', 'dalhousie road', 'pune', '9837364411', '17000');
+INSERT INTO Client1 VALUES(105, 'reo', 'equinox road', 'kolkata', '98987156411', '20000');
+
+CREATE TABLE Stocks1(
+  pid int primary key,
+  item varchar(20),
+  rate Int,
+  stock Int
+);
+
+INSERT INTO Stocks1 VALUES (201, 'DESKSTOP i7', 55000, 523);
+INSERT INTO Stocks1 VALUES (202, 'DESKSTOP i5', 45000, 544);
+INSERT INTO Stocks1 VALUES (203, 'DESKSTOP i6', 65000, 528);
+INSERT INTO Stocks1 VALUES (204, 'DESKSTOP i2', 75000, 546);
+INSERT INTO Stocks1 VALUES (205, 'DESKSTOP i9', 85000, 524);
+INSERT INTO Stocks1 VALUES (206, 'DESKSTOP i4', 95000, 568);
+
+CREATE TABLE transaction1(
+  invoiceno int primary key,
+  dt date,
+  cid int not null,
+  pid int,
+  qty int,
+  FOREIGN KEY (cid) REFERENCES Client1(cid),
+  FOREIGN KEY (pid) REFERENCES Stocks1(pid)
+);
+
+INSERT INTO transaction1 VALUES (23001, '2026-7-03', 100, 201, 50);
+INSERT INTO transaction1 VALUES (23002, '2026-7-05', 101, 202, 40);
+INSERT INTO transaction1 VALUES (23003, '2026-7-06', 102, 203, 10);
+INSERT INTO transaction1 VALUES (23004, '2026-7-07', 103, 204, 30);
+INSERT INTO transaction1 VALUES (23005, '2026-7-08', 104, 205, 60);
+INSERT INTO transaction1 VALUES (23006, '2026-7-09', 105, 206, 90);
