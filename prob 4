@@ -1,0 +1,61 @@
+CREATE TABLE employee(
+  empid int primary key,
+  name varchar(9) not null,
+  age int,
+  location varchar(8) not null,
+  deptid int,
+  salary int,
+  CHECK (location IN ('kol 12', 'kol 14', 'kol 16', 'kol 18', 'kol 20')),
+  CHECK (deptid IN(10,12,14,16,18,20))
+);
+
+INSERT INTO employee VALUES(1, 'alex', 19, 'kol 12', 14, 20000);
+INSERT INTO employee VALUES(2, 'riya', 18, 'kol 14', 10, 40000);
+INSERT INTO employee VALUES(3, 'keo', 57, 'kol 16', 16, 50000);
+INSERT INTO employee VALUES(4, 'nemo', 14, 'kol 18', 14, 60000);
+INSERT INTO employee VALUES(5, 'peter', 17, 'kol 14', 18, 60000);
+INSERT INTO employee VALUES(6, 'oreo', 15, 'kol 12', 12, 70000);
+INSERT INTO employee VALUES(7, 'rina', 17, 'kol 16', 10, 20000);
+INSERT INTO employee VALUES(8, 'mini', 18, 'kol 16', 16, 40000);
+INSERT INTO employee VALUES(9, 'lisa', 15, 'kol 12', 12, 50000);
+INSERT INTO employee VALUES(10, 'shifa', 29, 'kol 18', 10, 40000);
+INSERT INTO employee VALUES(11, 'john', 20, 'kol 12', 14, 30000);
+
+SELECT * FROM employee ORDER BY location ASC;
+
+SELECT location, SUM(salary) FROM employee GROUP BY location;
+
+SELECT deptid, SUM(salary) FROM employee GROUP BY deptid;
+
+SELECT COUNT(*) AS total_employees, SUM(salary) AS total_salary FROM employee;
+
+SELECT COUNT(*) FROM employee WHERE age>=40 AND age<=60 ;
+
+SELECT location, COUNT(*) AS total_number FROM employee GROUP BY location;
+
+SELECT deptid, COUNT(*) AS total_number FROM employee GROUP BY deptid;
+
+SELECT MAX(salary), MIN(salary) FROM employee;
+
+SELECT 
+  (SELECT MAX(salary) FROM employee WHERE salary < (SELECT MAX(salary) FROM employee)) AS second_highest,
+  (SELECT MIN(salary) FROM employee WHERE salary > (SELECT MIN(salary) FROM employee)) AS second_lowest;
+
+SELECT AVG(salary) AS AVG_SALARY FROM employee;
+
+SELECT name FROM employee WHERE age>50 AND AGE<60;
+
+SELECT MAX(age) AS max_age, MIN(age) AS min_age FROM employee;
+
+SELECT COUNT(*) AS total_employees 
+FROM employee 
+WHERE salary > (SELECT AVG(salary) FROM employee);
+
+SELECT COUNT(*) AS total_employees 
+FROM employee 
+WHERE location = 'Kolkata 16';
+
+SELECT * 
+FROM employee 
+WHERE name LIKE 'a%';
+
