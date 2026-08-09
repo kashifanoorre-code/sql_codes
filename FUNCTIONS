@@ -1,0 +1,55 @@
+CREATE TABLE employee(
+  empid int primary key,
+  name varchar(9) not null,
+  age int,
+  location varchar(8) not null,
+  deptid int,
+  salary int,
+  CHECK (location IN ('kol 12', 'kol 14', 'kol 16', 'kol 18', 'kol 20')),
+  CHECK (deptid IN(10,12,14,16,18,20))
+);
+
+INSERT INTO employee VALUES(1, 'alex', 19, 'kol 12', 14, 20000);
+INSERT INTO employee VALUES(2, 'riya', 18, 'kol 14', 10, 40000);
+INSERT INTO employee VALUES(3, 'keo', 57, 'kol 16', 16, 50000);
+INSERT INTO employee VALUES(4, 'nemo', 14, 'kol 18', 14, 60000);
+INSERT INTO employee VALUES(5, 'peter', 17, 'kol 14', 18, 60000);
+INSERT INTO employee VALUES(6, 'oreo', 15, 'kol 12', 12, 70000);
+INSERT INTO employee VALUES(7, 'rina', 17, 'kol 16', 10, 20000);
+INSERT INTO employee VALUES(8, 'mini', 18, 'kol 16', 16, 40000);
+INSERT INTO employee VALUES(9, 'lisa', 15, 'kol 12', 12, 50000);
+INSERT INTO employee VALUES(10, 'shifa', 29, 'kol 18', 10, 40000);
+INSERT INTO employee VALUES(11, 'john', 20, 'kol 12', 14, 30000);
+
+
+ALTER TABLE employee ADD phone_number int;
+
+SELECT * FROM employee;
+
+SELECT name, location FROM employee WHERE name LIKE 'r%a';
+
+--order by(sorting)
+SELECT empid, name FROM employee ORDER BY name;
+SELECT empid, name FROM employee ORDER BY empid DESC;
+SELECT age, empid FROM employee ORDER BY age ASC;
+SELECT name AS employee_name, empid AS employee_id FROM employee ORDER BY name;
+
+
+--IN CLAUSE
+SELECT name, location FROM employee WHERE location IN ('kol 12','kol 14');
+SELECT name, age FROM employee WHERE age IN (17);
+
+--BETWEEN CLAUSE
+SELECT name, age FROM employee WHERE age BETWEEN 15 AND 18;
+
+--AGGREGATE 
+SELECT AVG(salary) AS Average_salary FROM employee;
+SELECT AVG(salary) AS avg_salary FROM employee WHERE age=18;
+
+SELECT COUNT(*) FROM employee;
+SELECT COUNT(*) FROM employee WHERE location ='kol 12';
+
+SELECT MAX(salary) FROM employee;
+SELECT location, MAX(salary) FROM employee WHERE location='kol 16';
+
+SELECT MIN
