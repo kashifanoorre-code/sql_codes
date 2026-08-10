@@ -45,11 +45,21 @@ SELECT name, age FROM employee WHERE age BETWEEN 15 AND 18;
 --AGGREGATE 
 SELECT AVG(salary) AS Average_salary FROM employee;
 SELECT AVG(salary) AS avg_salary FROM employee WHERE age=18;
-
 SELECT COUNT(*) FROM employee;
 SELECT COUNT(*) FROM employee WHERE location ='kol 12';
-
 SELECT MAX(salary) FROM employee;
 SELECT location, MAX(salary) FROM employee WHERE location='kol 16';
+SELECT MIN(salary) FROM employee WHERE deptid = 10;
+SELECT SUM(age) FROM employee WHERE deptid=10;
 
-SELECT MIN
+--GROUP BY CLAUSE
+SELECT empid, AVG(salary) FROM employee GROUP BY empid;
+SELECT age, empid, SUM(salary) FROM employee GROUP BY empid, age;
+
+--GROUP BY ... HAVING CLAUSE
+SELECT empid FROM employee WHERE age>18 GROUP BY empid;
+SELECT location, SUM(salary) FROM employee GROUP BY location HAVING location IN('kol 12','kol 16');
+
+
+
+
