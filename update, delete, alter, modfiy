@@ -1,0 +1,47 @@
+CREATE TABLE employee(
+  empid int primary key,
+  name varchar(9) not null,
+  age int,
+  location varchar(8) not null,
+  deptid int,
+  salary int,
+  CHECK (location IN ('kol 12', 'kol 14', 'kol 16', 'kol 18', 'kol 20')),
+  CHECK (deptid IN(10,12,14,16,18,20))
+);
+
+INSERT INTO employee VALUES(1, 'alex', 19, 'kol 12', 14, 20000);
+INSERT INTO employee VALUES(2, 'riya', 18, 'kol 14', 10, 40000);
+INSERT INTO employee VALUES(3, 'keo', 57, 'kol 16', 16, 50000);
+INSERT INTO employee VALUES(4, 'nemo', 14, 'kol 18', 14, 60000);
+INSERT INTO employee VALUES(5, 'peter', 17, 'kol 14', 18, 60000);
+INSERT INTO employee VALUES(6, 'oreo', 15, 'kol 12', 12, 70000);
+INSERT INTO employee VALUES(7, 'rina', 17, 'kol 16', 10, 20000);
+INSERT INTO employee VALUES(8, 'mini', 18, 'kol 16', 16, 40000);
+INSERT INTO employee VALUES(9, 'lisa', 15, 'kol 12', 12, 50000);
+INSERT INTO employee VALUES(10, 'shifa', 29, 'kol 18', 10, 40000);
+INSERT INTO employee VALUES(11, 'john', 20, 'kol 12', 14, 30000);
+
+--update statements
+UPDATE employee SET name = 'lemon' WHERE age = 19;
+UPDATE employee SET salary = 20000 WHERE name = 'rina';
+UPDATE employee SET salary = salary + 1000 WHERE name = 'lemon';
+SELECT * FROM employee;
+
+--delete statements
+DELETE FROM employee WHERE name = 'oreo';
+DELETE FROM employee WHERE salary > 40000;
+SELECT * FROM employee;
+
+--alter statements
+ALTER TABLE employee ADD hobby varchar(10);
+SELECT * FROM employee;
+
+--modify statements
+ALTER TABLE employee MODIFY name varchar(15);
+ALTER TABLE employee MODIFY age NOT NULL;
+ALTER TABLE employee MODIFY FOREIGN KEY(pid) REFERENCES client1(cid);
+ALTER TABLE employee MODIFY FOREIGN KEY(pid) REFERENCES client1(cid) ON DELETE CASCADE;
+ALTER TABLE employee MODIFY age CHECK age <= 100;
+
+--delete statements
+ALTER TABLE employee DROP COLUMN location;
