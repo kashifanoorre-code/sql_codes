@@ -1,0 +1,59 @@
+
+CREATE TABLE Client1 (
+    Cid VARCHAR(5),
+    Name VARCHAR(20),
+    City VARCHAR(20)
+);
+
+INSERT INTO Client1 VALUES
+('C1', 'Rahul', 'Kolkata'),
+('C2', 'Priya', 'Delhi'),
+('C3', 'Aman', 'Mumbai'),
+('C4', 'Sneha', 'Chennai'),
+('C5', 'Arjun', 'Bangalore');
+
+CREATE TABLE Stocks1 (
+    Pid VARCHAR(5),
+    Item VARCHAR(20),
+    Rate INT
+);
+
+INSERT INTO Stocks1 VALUES
+('P1', 'Pen', 10),
+('P2', 'Notebook', 50),
+('P3', 'Pencil', 5),
+('P4', 'Bag', 500),
+('P5', 'Bottle', 100);
+
+CREATE TABLE Transaction1 (
+    invoiceno INT,
+    Cid VARCHAR(5),
+    Pid VARCHAR(5),
+    qty INT
+);
+
+INSERT INTO Transaction1 VALUES
+(101, 'C1', 'P1', 5),
+(102, 'C2', 'P2', 3),
+(103, 'C3', 'P3', 10),
+(104, 'C4', 'P4', 2),
+(105, 'C5', 'P5', 4);
+
+SELECT Transaction1.invoiceno, Transaction1.Cid, Client1.name, Client1.City FROM Transaction1, Client1 
+WHERE Transaction1.Cid = Client1.Cid;
+
+SELECT Transaction1.invoiceno, Transaction1.Pid, Stocks1.Item, Stocks1.Rate 
+FROM Transaction1, Stocks1 WHERE Stocks1.Pid = Transaction1.Pid;
+
+SELECT Transaction1.invoiceno, Transaction1.Pid, Stocks1.Item, Stocks1.Rate,
+Stocks1.Rate*Transaction1.qty AS amount FROM Transaction1, Stocks1 WHERE Stocks1.Pid = Transaction1.Pid;
+
+SELECT Transaction1.invoiceno,Transaction1.Cid,
+Client1.name, Transaction1.Pid, Stocks1.Item, Stocks1.Rate,
+Stocks1.Rate*Transaction1.qty AS amount FROM 
+Transaction1, Stocks1, Client1 WHERE Stocks1.Pid = Transaction1.Pid AND Client1.Cid = Transaction1.Cid;
+
+SELECT T.invoiceno, T.Cid, C.Name, T.Pid, G.Item, G.Rate, 
+G.Rate*T.qty AS Amount FROM 
+Transaction1 T, Stocks1 G, Client1 C WHERE 
+G.Pid = T.Pid AND C.Cid = T.Cid;
