@@ -1,0 +1,188 @@
+CREATE TABLE Regions (
+    RegionID INT PRIMARY KEY,
+    RegionName VARCHAR(50)
+);
+
+CREATE TABLE Countries (
+    CountryID VARCHAR(5) PRIMARY KEY,
+    CountryName VARCHAR(50),
+    RegionID INT,
+    FOREIGN KEY (RegionID) REFERENCES Regions(RegionID)
+);
+
+CREATE TABLE Locations (
+    LocationID INT PRIMARY KEY,
+    StreetAddress VARCHAR(100),
+    PostalCode VARCHAR(10),
+    City VARCHAR(50),
+    StateProvince VARCHAR(50),
+    CountryID VARCHAR(5),
+    FOREIGN KEY (CountryID) REFERENCES Countries(CountryID)
+);
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50),
+    LocationID INT,
+    FOREIGN KEY (LocationID) REFERENCES Locations(LocationID)
+);
+
+CREATE TABLE Jobs (
+    JobID VARCHAR(10) PRIMARY KEY,
+    JobTitle VARCHAR(50),
+    MinimumSalary DECIMAL(10,2),
+    MaximumSalary DECIMAL(10,2)
+);
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(30),
+    LastName VARCHAR(30),
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(20),
+    HireDate DATE,
+    JobID VARCHAR(10),
+    Salary DECIMAL(10,2),
+    ManagerID INT,
+    DepartmentID INT,
+
+    FOREIGN KEY (JobID) REFERENCES Jobs(JobID),
+    FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+CREATE TABLE Dependents (
+    DependentID INT PRIMARY KEY,
+    FirstName VARCHAR(30),
+    LastName VARCHAR(30),
+    Relationship VARCHAR(30),
+    EmployeeID INT,
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+
+-- 1. Regions
+INSERT INTO Regions (RegionID, RegionName) VALUES
+(1, 'North America'),
+(2, 'Europe'),
+(3, 'Asia-Pacific');
+
+-- 2. Countries
+INSERT INTO Countries (CountryID, CountryName, RegionID) VALUES
+('US', 'United States', 1),
+('CA', 'Canada', 1),
+('UK', 'United Kingdom', 2),
+('JP', 'Japan', 3);
+
+-- 3. Locations
+INSERT INTO Locations (LocationID, StreetAddress, PostalCode, City, StateProvince, CountryID) VALUES
+(100, '2004 Charade Rd', '98104', 'Seattle', 'Washington', 'US'),
+(101, '147 Spadina Ave', 'M5V 2L7', 'Toronto', 'Ontario', 'CA'),
+(102, '8204 Arthur St', 'EC1A 1BB', 'London', 'London', 'UK'),
+(103, '6-10-1 Roppongi', '106-0032', 'Tokyo', 'Tokyo', 'JP');
+
+-- 4. Departments
+INSERT INTO Departments (DepartmentID, DepartmentName, LocationID) VALUES
+(10, 'Executive', 100),
+(20, 'Engineering', 100),
+(30, 'Human Resources', 101),
+(40, 'Sales', 102),
+(50, 'Customer Support', 103);
+
+-- 5. Jobs
+INSERT INTO Jobs (JobID, JobTitle, MinimumSalary, MaximumSalary) VALUES
+('CEO', 'Chief Executive Officer', 150000.00, 300000.00),
+('ENG_MGR', 'Engineering Manager', 100000.00, 180000.00),
+('SWE', 'Software Engineer', 60000.00, 120000.00),
+('HR_SPEC', 'HR Specialist', 45000.00, 85000.00),
+('SA_REP', 'Sales Representative', 40000.00, 90000.00);
+
+-- 6. Employees (Insert executives/managers first to satisfy self-referencing ManagerID)
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Email, PhoneNumber, HireDate, JobID, Salary, ManagerID, DepartmentID) VALUES
+(1, 'Eleanor', 'Vance', 'eleanor.vance@example.com', '555-0100', '2015-03-15', 'CEO', 250000.00, NULL, 10),
+(2, 'Marcus', 'Brody', 'marcus.brody@example.com', '555-0101', '2017-06-01', 'ENG_MGR', 140000.00, 1, 20),
+(3, 'Sophia', 'Chen', 'sophia.chen@example.com', '555-0102', '2019-01-10', 'SWE', 95000.00, 2, 20),
+(4, 'Liam', 'O''Connor', 'liam.oconnor@example.com', '555-0103', '2020-09-15', 'HR_SPEC', 65000.00, 1, 30),
+(5, 'Aisha', 'Patel', 'aisha.patel@example.com', '555-0104', '2021-11-01', 'SA_REP', 72000.00, 1, 40);
+
+-- 7. Dependents
+INSERT INTO Dependents (DependentID, FirstName, LastName, Relationship, EmployeeID) VALUES
+(1, 'Lucas', 'Brody', 'Child', 2),
+(2, 'Emma', 'Brody', 'Spouse', 2),
+(3, 'Maya', 'Chen', 'Child', 3),
+(4, 'Noah', 'O''Connor', 'Child', 4);
+
+SELECT e.FirstName, d.DepartmentName FROM Employees e
+JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+
+SELECT e.EmployeeID, e.FirstName, d.DepartmentName
+FROM Employees e JOIN Departments d ON 
+e.DepartmentID = d.DepartmentID ORDER BY e.EmployeeID;
+
+--returns every row from left table and adds matching data
+SELECT e.FirstName, d.DepartmentName FROM Employees e
+LEFT JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+--returns every row from right table and adds matching data
+SELECT e.FirstName, d.DepartmentID FROM Employees e
+RIGHT JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+--full outer join keeps rows from both the tables and matches where necessary
+SELECT e.FirstName, d.DepartmentID FROM Employees e
+FULL OUTER JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+--Display all employees earning more than 50,000 in descending salary order.
+SELECT e.FirstName, e.LastName, e.Salary FROM Employees e WHERE Salary > 50000 ORDER BY Salary DESC;
+
+-- Count the number of employees in each department.
+SELECT COUNT(*), DepartmentID FROM Employees GROUP BY DepartmentID;
+
+SELECT e.FirstName, d.DepartmentName FROM Employees e
+JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+
+SELECT e.EmployeeID, e.FirstName, d.DepartmentName
+FROM Employees e JOIN Departments d ON 
+e.DepartmentID = d.DepartmentID ORDER BY e.EmployeeID;
+
+--returns every row from left table and adds matching data
+SELECT e.FirstName, d.DepartmentName FROM Employees e
+LEFT JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+--returns every row from right table and adds matching data
+SELECT e.FirstName, d.DepartmentID FROM Employees e
+RIGHT JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+--full outer join keeps rows from both the tables and matches where necessary
+SELECT e.FirstName, d.DepartmentID FROM Employees e
+FULL OUTER JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+--Display all employees earning more than 50,000 in descending salary order.
+SELECT e.FirstName, e.LastName, e.Salary FROM Employees e WHERE Salary > 50000 ORDER BY Salary DESC;
+
+-- Count the number of employees in each department.
+SELECT COUNT(*), DepartmentID FROM Employees GROUP BY DepartmentID;
+
+-- Find departments having at least two employees.
+SELECT COUNT(*) AS number_emp, DepartmentID FROM 
+Employees GROUP BY DepartmentID HAVING COUNT(*) >= 2;
+
+-- Display employee names together with their department names.
+SELECT e.FirstName, e.LastName, d.DepartmentName 
+FROM Employees e JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+-- Show all departments, including departments that currently have no employees.
+SELECT e.FirstName, e.LastName, d.DepartmentName FROM Departments d
+LEFT JOIN Employees e ON e.DepartmentID = d.DepartmentID;
+
+-- Find departments whose average salary is greater than 55,000.
+SELECT DepartmentID, AVG(Salary) FROM Employees
+ GROUP BY DepartmentID HAVING AVG(SALARY)>55000;
+
+-- Display the highest salary in each department.
+SELECT DepartmentID, MAX(SALARY) AS Max_salary FROM Employees GROUP BY DepartmentID;
+
+-- Combine JOIN, GROUP BY and HAVING to show departments with total salary above 100,000.
+SELECT d.DepartmentName, SUM(e.Salary)
+FROM Employees e JOIN Departments d ON e.DepartmentID= d.DepartmentID
+ GROUP BY d.DepartmentName HAVING SUM(e.Salary)>100000;
